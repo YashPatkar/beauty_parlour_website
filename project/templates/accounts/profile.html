@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Profile - Beauty Parlour{% endblock %}
+{% block content %}
+<section class="py-5">
+  <div class="container">
+    <h1 class="mb-4">My Profile</h1>
+
+    <!-- Profile card: avatar, name, email, phone -->
+    <div class="card border-0 shadow-sm mb-4">
+      <div class="card-body">
+        <form method="post" action="{% url 'profile' %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="update_profile">
+          <div class="row align-items-center mb-4">
+            <div class="col-md-3 text-center">
+              {% if profile.avatar %}
+              <img src="{{ profile.avatar.url }}" alt="Profile" class="rounded-circle img-fluid mb-2" style="width: 120px; height: 120px; object-fit: cover;">
+              {% else %}
+              <div class="rounded-circle bg-light d-inline-flex align-items-center justify-content-center mb-2" style="width: 120px; height: 120px;">
+                <span class="text-muted display-6">Photo</span>
+              </div>
+              {% endif %}
+              <label class="btn btn-outline-primary btn-sm mt-2">
+                Change photo <input type="file" name="avatar" accept="image/*" class="d-none">
+              </label>
+              <p class="small text-muted mt-1 mb-0">Select then Save profile</p>
+            </div>
+            <div class="col-md-9">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label">First name</label>
+                  <input type="text" class="form-control" name="first_name" value="{{ user.first_name|default:'' }}" placeholder="First name">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Last name</label>
+                  <input type="text" class="form-control" name="last_name" value="{{ user.last_name|default:'' }}" placeholder="Last name">
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Email</label>
+                  <input type="email" class="form-control" name="email" value="{{ user.email|default:'' }}" placeholder="your@email.com">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Phone</label>
+                  <input type="text" class="form-control" name="phone" value="{{ profile.phone|default:'' }}" placeholder="+91 98765 43210">
+                </div>
+                <div class="col-12">
+                  <p class="text-muted small mb-0">Username: <strong>{{ user.username }}</strong> (cannot be changed)</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Save profile</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Saved payment methods (Razorpay style) -->
+    <div class="card border-0 shadow-sm mb-4">
+      <div class="card-body">
+        <h5 class="card-title mb-3">
+          <img src="https://www.peakxv.com/wp-content/uploads/sites/2/2022/03/logo_razorpay.png" alt="Razorpay" height="24" class="me-2 align-middle">
+          Saved payment methods
+        </h5>
+        <p class="text-muted small">Add cards for a realistic checkout. No real card data is stored.</p>
+        <ul class="list-group list-group-flush mb-3">
+          {% for m in saved_methods %}
+          <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+            <span>
+              <span class="badge bg-{% if m.card_type == 'visa' %}primary{% elif m.card_type == 'mastercard' %}danger{% else %}secondary{% endif %} me-2">{{ m.get_card_type_display }}</span>
+              **** {{ m.last_four }}
+              {% if m.nickname %}<span class="text-muted ms-2">({{ m.nickname }})</span>{% endif %}
+              {% if m.is_default %}<span class="badge bg-success ms-2">Default</span>{% endif %}
+            </span>
+            <span>
+              {% if not m.is_default %}
+              <a href="{% url 'set_default_card' m.pk %}" class="btn btn-sm btn-outline-secondary">Set default</a>
+              {% endif %}
+              <a href="{% url 'remove_saved_method' m.pk %}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Remove this card?');">Remove</a>
+            </span>
+          </li>
+          {% empty %}
+          <li class="list-group-item text-muted px-0">No saved cards. Add one below.</li>
+          {% endfor %}
+        </ul>
+        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addCardModal">+ Add new card</button>
+      </div>
+    </div>
+
+    <!-- Quick links -->
+    <div class="card border-0 shadow-sm">
+      <div class="card-body">
+        <a href="{% url 'my_appointments' %}" class="btn btn-primary me-2">My Appointments</a>
+        <a href="{% url 'feedback' %}" class="btn btn-outline-primary">Give Feedback</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Add card modal (last 4 + type + nickname only) -->
+<div class="modal fade" id="addCardModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="post" action="{% url 'profile' %}">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="add_card">
+        <div class="modal-header">
+          <h5 class="modal-title">Add card</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p class="text-muted small">Only last 4 digits and card type are stored. No real payment data.</p>
+          <div class="mb-3">
+            <label class="form-label">Last 4 digits</label>
+            <input type="text" class="form-control" name="last_four" maxlength="4" pattern="[0-9]{4}" placeholder="1234" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Card type</label>
+            <select class="form-select" name="card_type">
+              <option value="visa">Visa</option>
+              <option value="mastercard">Mastercard</option>
+              <option value="rupay">RuPay</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Nickname (optional)</label>
+            <input type="text" class="form-control" name="nickname" placeholder="e.g. My Visa">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Add card</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

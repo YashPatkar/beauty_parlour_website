@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Our Team - Beauty Parlour{% endblock %}
+{% block content %}
+<section class="section-cream py-5">
+  <div class="container">
+    <h1 class="section-title text-center mb-2">Our team</h1>
+    <p class="text-center text-muted mb-5">Meet the experts behind your beauty experience.</p>
+    <div class="row g-4">
+      {% for s in staff_list %}
+      <div class="col-md-6 col-lg-3">
+        <div class="card card-premium h-100 reveal-card">
+          {% if s.image_url %}
+          <img src="{{ s.image_url }}" class="card-img-top" alt="{{ s.name }}" style="height: 260px; object-fit: cover;">
+          {% else %}
+          <img src="{{ default_images.team_placeholder }}" class="card-img-top" alt="{{ s.name }}" style="height: 260px; object-fit: cover;">
+          {% endif %}
+          <div class="card-body text-center">
+            <h5 class="card-title mb-1">{{ s.name }}</h5>
+            <p class="text-muted small mb-0">{{ s.specialization|default:"Beauty & Grooming" }}</p>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div class="col-12 text-center text-muted py-5">Team details will be updated soon.</div>
+      {% endfor %}
+    </div>
+    <div class="text-center mt-4">
+      <a href="{% url 'services_list' %}" class="btn btn-premium-primary">Book a Service</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

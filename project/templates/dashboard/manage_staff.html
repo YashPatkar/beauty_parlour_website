@@ -1,0 +1,35 @@
+{% extends 'dashboard/base_dashboard.html' %}
+{% block title %}Manage Staff - Admin Panel{% endblock %}
+{% block content %}
+<h1 class="mb-4">Manage Staff</h1>
+<p><a href="{% url 'staff_add' %}" class="btn btn-primary">Add Staff</a></p>
+<div class="card border-0 shadow-sm">
+  <div class="table-responsive">
+    <table class="table table-hover mb-0">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Specialization</th>
+          <th>Active</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in staff_list %}
+        <tr>
+          <td>{{ s.name }}</td>
+          <td>{{ s.specialization|default:"-" }}</td>
+          <td>{% if s.is_active %}Yes{% else %}No{% endif %}</td>
+          <td>
+            <a href="{% url 'staff_edit' s.pk %}" class="btn btn-sm btn-outline-primary">Edit</a>
+            <a href="{% url 'staff_delete' s.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4" class="text-muted">No staff yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

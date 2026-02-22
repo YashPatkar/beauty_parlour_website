@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Services & Gallery - Beauty Parlour{% endblock %}
+{% block content %}
+
+<!-- Services section -->
+<section class="section-cream py-5">
+  <div class="container">
+    <h1 class="section-title text-center mb-2">Our Services</h1>
+    <p class="text-center text-muted mb-5">Choose a service and book your appointment. Login required for booking.</p>
+    <form method="get" action="{% url 'services_list' %}" class="mb-4 mx-auto" style="max-width: 500px;">
+      <div class="input-group">
+        <input type="search" name="q" value="{{ search_query|default:'' }}" class="form-control" placeholder="Search by name, description or location..." aria-label="Search services">
+        <button type="submit" class="btn btn-premium-primary">Search</button>
+        <a href="{% url 'services_list' %}" class="btn btn-outline-secondary">Reset</a>
+      </div>
+    </form>
+    {% if search_query %}
+    <p class="text-center text-muted small mb-3">Results for &ldquo;{{ search_query }}&rdquo;</p>
+    {% endif %}
+    <div class="row g-4">
+      {% for service in services %}
+      <div class="col-md-6 col-lg-4">
+        <div class="card card-premium h-100 reveal-card">
+          <div class="card-img-wrap">
+            <a href="{% url 'service_detail' service.pk %}" class="text-decoration-none text-dark d-block">
+              <img src="{% firstof service.display_image_url service.image_url default_images.service_placeholder %}" class="card-img-top" alt="{{ service.name }}">
+            </a>
+          </div>
+          <div class="card-body d-flex flex-column">
+            <a href="{% url 'service_detail' service.pk %}" class="text-decoration-none text-dark"><h5 class="card-title">{{ service.name }}</h5></a>
+            {% if service.location %}<span class="badge bg-secondary bg-opacity-25 text-dark mb-2">{{ service.location }}</span>{% endif %}
+            <p class="text-muted small flex-grow-1">{{ service.description|truncatewords:20 }}</p>
+            <p class="price mb-1">₹{{ service.price }}</p>
+            <p class="small text-muted mb-3">{{ service.duration_minutes }} min</p>
+            <div class="d-flex flex-wrap gap-2 mt-auto">
+              <a href="{% url 'service_detail' service.pk %}" class="btn btn-premium-outline flex-grow-1">Details</a>
+              {% if user.is_authenticated %}
+              <a href="{% url 'booking' service.pk %}" class="btn btn-premium-primary">Book Now</a>
+              {% if service.pk in user_cart_service_ids %}
+              <a href="{% url 'cart' %}" class="btn btn-outline-secondary btn-sm">In cart</a>
+              {% else %}
+              <a href="{% url 'add_to_cart' service.pk %}" class="btn btn-outline-primary btn-sm">Add to cart</a>
+              {% endif %}
+              {% if service.pk in user_favourite_service_ids %}
+              <span class="btn btn-outline-secondary btn-sm">Saved</span>
+              {% else %}
+              <a href="{% url 'add_to_favourites' service.pk %}" class="btn btn-outline-secondary btn-sm">Save</a>
+              {% endif %}
+              {% else %}
+              <a href="{% url 'login' %}?next={% url 'booking' service.pk %}" class="btn btn-premium-primary">Book Now</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div class="col-12 text-center text-muted py-5">No services available. Check back later.</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Gallery section -->
+<section id="gallery" class="section-offwhite py-5">
+  <div class="container">
+    <h2 class="section-title text-center mb-2">Gallery</h2>
+    <p class="text-center text-muted mb-5">A glimpse of our work and salon environment.</p>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4">
+        <div class="gallery-card reveal-card" data-bs-toggle="modal" data-bs-target="#lightboxModal" data-img="{{ default_images.gallery_hair }}" data-caption="Hair Styling">
+          <img src="{{ default_images.gallery_hair }}" alt="Hair Styling">
+          <div class="gallery-overlay"><span>Hair Styling</span></div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="gallery-card reveal-card" data-bs-toggle="modal" data-bs-target="#lightboxModal" data-img="{{ default_images.gallery_makeup }}" data-caption="Makeup">
+          <img src="{{ default_images.gallery_makeup }}" alt="Makeup">
+          <div class="gallery-overlay"><span>Makeup</span></div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="gallery-card reveal-card" data-bs-toggle="modal" data-bs-target="#lightboxModal" data-img="{{ default_images.gallery_facial }}" data-caption="Facials">
+          <img src="{{ default_images.gallery_facial }}" alt="Facials">
+          <div class="gallery-overlay"><span>Facials</span></div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="gallery-card reveal-card" data-bs-toggle="modal" data-bs-target="#lightboxModal" data-img="{{ default_images.gallery_nail }}" data-caption="Nail Art">
+          <img src="{{ default_images.gallery_nail }}" alt="Nail Art">
+          <div class="gallery-overlay"><span>Nail Art</span></div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="gallery-card reveal-card" data-bs-toggle="modal" data-bs-target="#lightboxModal" data-img="{{ default_images.gallery_bridal }}" data-caption="Bridal">
+          <img src="{{ default_images.gallery_bridal }}" alt="Bridal">
+          <div class="gallery-overlay"><span>Bridal</span></div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="gallery-card reveal-card" data-bs-toggle="modal" data-bs-target="#lightboxModal" data-img="{{ default_images.gallery_salon }}" data-caption="Salon">
+          <img src="{{ default_images.gallery_salon }}" alt="Salon">
+          <div class="gallery-overlay"><span>Salon</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="text-center mt-4">
+      <a href="{% url 'about' %}#contact" class="btn btn-premium-primary">Book Your Visit</a>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox modal -->
+<div class="modal fade" id="lightboxModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content border-0 bg-transparent">
+      <div class="modal-header border-0 pb-0">
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center p-0">
+        <img id="lightboxImg" src="" alt="" class="img-fluid rounded">
+        <p id="lightboxCaption" class="text-white mt-2 mb-0 small"></p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+  document.getElementById('lightboxModal').addEventListener('show.bs.modal', function(e) {
+    var el = e.relatedTarget;
+    if (el && el.dataset.img) {
+      document.getElementById('lightboxImg').src = el.dataset.img;
+      document.getElementById('lightboxCaption').textContent = el.dataset.caption || '';
+    }
+  });
+</script>
+{% endblock %}

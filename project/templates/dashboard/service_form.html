@@ -1,0 +1,184 @@
+{% extends 'dashboard/base_dashboard.html' %}
+{% block title %}{% if service %}Edit{% else %}Add{% endif %} Service - Admin Panel{% endblock %}
+{% block content %}
+<h1 class="mb-4">{% if service %}Edit Service{% else %}Add Service{% endif %}</h1>
+<div class="card border-0 shadow-sm">
+  <div class="card-body">
+    <form method="post">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="name" class="form-label">Name *</label>
+        <input type="text" class="form-control" id="name" name="name" value="{{ service.name|default:'' }}" required>
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea class="form-control" id="description" name="description" rows="3">{{ service.description|default:'' }}</textarea>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="price" class="form-label">Price *</label>
+          <input type="number" step="0.01" class="form-control" id="price" name="price" value="{{ service.price|default:'' }}" required>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="duration" class="form-label">Duration (minutes)</label>
+          <input type="number" class="form-control" id="duration" name="duration" value="{{ service.duration_minutes|default:60 }}">
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="image_url" class="form-label">Image URL (optional)</label>
+        <input type="url" class="form-control" id="image_url" name="image_url" value="{{ service.image_url|default:'' }}">
+      </div>
+      <div class="mb-3 position-relative">
+        <label for="location" class="form-label">Location (optional)</label>
+        <input type="text" class="form-control" id="location" name="location" value="{{ service.location|default:'' }}" placeholder="e.g. Chembur, Bandra" autocomplete="off">
+        <div id="location-suggestions" class="list-group position-absolute w-100 mt-1" style="z-index: 1050; display: none; max-height: 200px; overflow-y: auto;"></div>
+        <p class="form-text small text-muted mt-1 mb-1">Map preview updates as you type (debounced).</p>
+        <div id="location-map" class="rounded border mt-1" style="height: 220px; display: none; background: #e9ecef;"></div>
+      </div>
+      <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="is_active" name="is_active" {% if not service or service.is_active %}checked{% endif %}>
+        <label class="form-check-label" for="is_active">Active</label>
+      </div>
+      <button type="submit" class="btn btn-primary">Save</button>
+      <a href="{% url 'manage_services' %}" class="btn btn-outline-secondary">Cancel</a>
+    </form>
+  </div>
+</div>
+{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+{% endblock %}
+{% block extra_js %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function() {
+  var DEBOUNCE_MS = 400;
+  var input = document.getElementById('location');
+  var list = document.getElementById('location-suggestions');
+  var mapEl = document.getElementById('location-map');
+  if (!input || !list) return;
+  var debounceTimer = null;
+  var lastQuery = '';
+  var map = null;
+  var marker = null;
+
+  function hideSuggestions() {
+    list.style.display = 'none';
+    list.innerHTML = '';
+  }
+
+  function showSuggestions(locations) {
+    list.innerHTML = '';
+    if (locations.length === 0) {
+      list.style.display = 'none';
+      return;
+    }
+    locations.forEach(function(loc) {
+      var a = document.createElement('a');
+      a.href = '#';
+      a.className = 'list-group-item list-group-item-action';
+      a.textContent = loc;
+      a.addEventListener('click', function(e) {
+        e.preventDefault();
+        input.value = loc;
+        hideSuggestions();
+        lastQuery = loc;
+        fetchSuggestionsAndMap();
+      });
+      list.appendChild(a);
+    });
+    list.style.display = 'block';
+  }
+
+  function updateMap(lat, lon, label) {
+    if (!mapEl) return;
+    if (!map) {
+      map = L.map('location-map').setView([lat, lon], 15);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap' }).addTo(map);
+      marker = L.marker([lat, lon]).addTo(map);
+    } else {
+      map.setView([lat, lon], 15);
+      marker.setLatLng([lat, lon]);
+    }
+    marker.bindPopup(label || input.value.trim());
+    mapEl.style.display = 'block';
+  }
+
+  function hideMap() {
+    if (mapEl) mapEl.style.display = 'none';
+  }
+
+  function fetchSuggestionsAndMap() {
+    var q = input.value.trim();
+    lastQuery = q;
+    if (!q) {
+      hideSuggestions();
+      hideMap();
+      return;
+    }
+    var url = '{% url "location_suggestions" %}?q=' + encodeURIComponent(q);
+    fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (input.value.trim() === lastQuery) showSuggestions(data.locations || []);
+      })
+      .catch(function() { if (input.value.trim() === lastQuery) hideSuggestions(); });
+
+    var nominatimUrl = 'https://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(q) + '&format=json&limit=1';
+    fetch(nominatimUrl, { headers: { 'User-Agent': 'BeautyParlourAdmin/1.0' } })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (input.value.trim() !== lastQuery) return;
+        if (data && data[0]) {
+          var lat = parseFloat(data[0].lat);
+          var lon = parseFloat(data[0].lon);
+          updateMap(lat, lon, data[0].display_name);
+        } else {
+          hideMap();
+        }
+      })
+      .catch(function() {
+        if (input.value.trim() === lastQuery) hideMap();
+      });
+  }
+
+  function runDebouncedFetch() {
+    clearTimeout(debounceTimer);
+    var q = input.value.trim();
+    if (!q) {
+      hideSuggestions();
+      hideMap();
+      return;
+    }
+    debounceTimer = setTimeout(fetchSuggestionsAndMap, DEBOUNCE_MS);
+  }
+
+  input.addEventListener('input', function() {
+    clearTimeout(debounceTimer);
+    var q = input.value.trim();
+    if (!q) {
+      hideSuggestions();
+      hideMap();
+      return;
+    }
+    debounceTimer = setTimeout(fetchSuggestionsAndMap, DEBOUNCE_MS);
+  });
+
+  input.addEventListener('blur', function() {
+    setTimeout(hideSuggestions, 150);
+  });
+
+  input.addEventListener('focus', function() {
+    if (input.value.trim()) debounceTimer = setTimeout(fetchSuggestionsAndMap, DEBOUNCE_MS);
+  });
+
+  document.addEventListener('click', function(e) {
+    if (e.target !== input && !list.contains(e.target)) hideSuggestions();
+  });
+
+  if (input.value.trim()) {
+    setTimeout(function() { fetchSuggestionsAndMap(); }, 300);
+  }
+})();
+</script>
+{% endblock %}

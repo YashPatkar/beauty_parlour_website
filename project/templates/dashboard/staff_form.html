@@ -1,0 +1,30 @@
+{% extends 'dashboard/base_dashboard.html' %}
+{% block title %}{% if staff %}Edit{% else %}Add{% endif %} Staff - Admin Panel{% endblock %}
+{% block content %}
+<h1 class="mb-4">{% if staff %}Edit Staff{% else %}Add Staff{% endif %}</h1>
+<div class="card border-0 shadow-sm">
+  <div class="card-body">
+    <form method="post">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="name" class="form-label">Name *</label>
+        <input type="text" class="form-control" id="name" name="name" value="{{ staff.name|default:'' }}" required>
+      </div>
+      <div class="mb-3">
+        <label for="specialization" class="form-label">Specialization</label>
+        <input type="text" class="form-control" id="specialization" name="specialization" value="{{ staff.specialization|default:'' }}">
+      </div>
+      <div class="mb-3">
+        <label for="image_url" class="form-label">Image URL (optional)</label>
+        <input type="url" class="form-control" id="image_url" name="image_url" value="{{ staff.image_url|default:'' }}">
+      </div>
+      <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="is_active" name="is_active" {% if not staff or staff.is_active %}checked{% endif %}>
+        <label class="form-check-label" for="is_active">Active</label>
+      </div>
+      <button type="submit" class="btn btn-primary">Save</button>
+      <a href="{% url 'manage_staff' %}" class="btn btn-outline-secondary">Cancel</a>
+    </form>
+  </div>
+</div>
+{% endblock %}

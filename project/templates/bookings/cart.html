@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Cart - Beauty Parlour{% endblock %}
+{% block content %}
+<section class="py-5">
+  <div class="container">
+    <h1 class="mb-2">Your Cart</h1>
+    <p class="text-muted mb-4">Review services and book when ready.</p>
+    <div class="card border-0 shadow-sm">
+      <div class="card-body">
+        {% for item in items %}
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 py-3 border-bottom">
+          <div>
+            <h5 class="mb-1">{{ item.service.name }}</h5>
+            <p class="text-muted small mb-0">{{ item.service.duration_minutes }} min · ₹{{ item.service.price }} {% if item.quantity > 1 %}× {{ item.quantity }}{% endif %}</p>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <span class="price">₹{{ item.service.price|floatformat:0 }}{% if item.quantity > 1 %} × {{ item.quantity }} = ₹{% widthratio item.service.price 1 item.quantity %}{% endif %}</span>
+            <a href="{% url 'booking' item.service_id %}" class="btn btn-premium-primary btn-sm">Book</a>
+            <a href="{% url 'remove_from_cart' item.service_id %}" class="btn btn-outline-danger btn-sm" onclick="return confirm('Remove from cart?');">Remove</a>
+          </div>
+        </div>
+        {% empty %}
+        <p class="text-muted mb-0">Your cart is empty. <a href="{% url 'services_list' %}">Browse services</a>.</p>
+        {% endfor %}
+        {% if items %}
+        <div class="d-flex justify-content-between align-items-center pt-4 mt-2">
+          <strong>Total</strong>
+          <span class="price fs-4">₹{{ total|floatformat:0 }}</span>
+        </div>
+        <div class="pt-3">
+          <a href="{% url 'services_list' %}" class="btn btn-premium-outline">Continue browsing</a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

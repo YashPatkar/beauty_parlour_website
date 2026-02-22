@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Services - Beauty Parlour{% endblock %}
+{% block content %}
+<section class="section-cream py-5">
+  <div class="container">
+    <h1 class="section-title text-center mb-2">Our Services</h1>
+    <p class="text-center text-muted mb-5">Choose a service and book your appointment. Login required for booking.</p>
+    <div class="row g-4">
+      {% for service in services %}
+      <div class="col-md-6 col-lg-4">
+        <div class="card card-premium h-100 reveal-card">
+          <div class="card-img-wrap">
+            <a href="{% url 'service_detail' service.pk %}" class="text-decoration-none text-dark d-block">
+              {% if service.image_url %}
+              <img src="{{ service.image_url }}" class="card-img-top" alt="{{ service.name }}">
+              {% else %}
+              <img src="{{ default_images.service_placeholder }}" class="card-img-top" alt="{{ service.name }}">
+              {% endif %}
+            </a>
+          </div>
+          <div class="card-body d-flex flex-column">
+            <a href="{% url 'service_detail' service.pk %}" class="text-decoration-none text-dark"><h5 class="card-title">{{ service.name }}</h5></a>
+            <p class="text-muted small flex-grow-1">{{ service.description|truncatewords:20 }}</p>
+            <p class="price mb-1">₹{{ service.price }}</p>
+            <p class="small text-muted mb-3">{{ service.duration_minutes }} min</p>
+            <div class="d-flex gap-2 mt-auto">
+              <a href="{% url 'service_detail' service.pk %}" class="btn btn-premium-outline flex-grow-1">Details</a>
+              {% if user.is_authenticated %}
+              <a href="{% url 'booking' service.pk %}" class="btn btn-premium-primary">Book Now</a>
+              {% else %}
+              <a href="{% url 'login' %}?next={% url 'booking' service.pk %}" class="btn btn-premium-primary">Book Now</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div class="col-12 text-center text-muted py-5">No services available. Check back later.</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

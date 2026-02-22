@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Testimonials - Beauty Parlour{% endblock %}
+{% block content %}
+<section class="py-5">
+  <div class="container">
+    <h1 class="text-center mb-2">Testimonials</h1>
+    <p class="text-center text-muted mb-5">What our customers say about us.</p>
+    <div class="row g-4">
+      {% for f in feedbacks %}
+      <div class="col-md-6 col-lg-4">
+        <div class="card border-0 shadow-sm h-100 p-4">
+          <p class="small text-warning mb-2">{% for i in "12345" %}{% if forloop.counter <= f.rating %}★{% else %}☆{% endif %}{% endfor %}</p>
+          <p class="fst-italic mb-2">"{{ f.message|default:"Great experience!" }}"</p>
+          <p class="fw-bold mb-0 small">{{ f.user.username }}</p>
+        </div>
+      </div>
+      {% empty %}
+      <div class="col-12">
+        <div class="card border-0 shadow-sm p-5 text-center">
+          <p class="text-muted mb-3">No testimonials yet. Be the first to share your experience!</p>
+          {% if user.is_authenticated %}
+          <a href="{% url 'feedback' %}" class="btn btn-primary">Submit Feedback</a>
+          {% else %}
+          <a href="{% url 'login' %}" class="btn btn-primary">Login to Submit Feedback</a>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

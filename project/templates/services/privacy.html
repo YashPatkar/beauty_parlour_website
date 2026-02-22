@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Privacy Policy - Beauty Parlour{% endblock %}
+{% block content %}
+<section class="py-5">
+  <div class="container">
+    <h1 class="text-center mb-5">Privacy Policy</h1>
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card border-0 shadow-sm p-4 p-md-5">
+          <p class="text-muted small">Last updated: {% now "F Y" %}</p>
+          <h4>1. Introduction</h4>
+          <p>This privacy policy applies to the Beauty Parlour website (academic project). We respect your privacy and are committed to protecting your personal data.</p>
+          <h4>2. Data We Collect</h4>
+          <p>When you register, we collect your username and password. When you book an appointment, we store your booking details, date, time, and service. Contact form submissions include name, email, and message.</p>
+          <h4>3. Use of Data</h4>
+          <p>Your data is used to manage your account, process bookings, and respond to contact requests. This project runs locally and does not share data with third parties.</p>
+          <h4>4. Security</h4>
+          <p>We use Django’s built-in authentication. Passwords are hashed. This is a college project; for production use, additional security measures would be required.</p>
+          <h4>5. Your Rights</h4>
+          <p>You can request access to your data or deletion of your account by contacting us. You may use the Django admin (if you have access) or contact the project owner.</p>
+          <p class="mb-0"><a href="{% url 'contact' %}" class="btn btn-outline-primary mt-2">Contact Us</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

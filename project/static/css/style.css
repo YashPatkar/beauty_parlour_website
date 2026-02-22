@@ -1,0 +1,301 @@
+/*
+  Beauty Parlour - Theme
+  Primary: #E91E63 | Secondary: #374151 | Background: #F9FAFB | Text: #111827 | Card: #FFFFFF
+  Font: Inter, Roboto, system-ui
+  H1: 28px, H2: 22px, Body: 16px
+*/
+:root {
+  --primary: #E91E63;
+  --primary-dark: #c2185b;
+  --secondary: #374151;
+  --bg: #F9FAFB;
+  --text: #111827;
+  --card-bg: #FFFFFF;
+  --border: #E5E7EB;
+  --success: #10B981;
+  --error: #EF4444;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', 'Roboto', system-ui, sans-serif;
+  font-size: 16px;
+  color: var(--text);
+  background: var(--bg);
+  margin: 0;
+  line-height: 1.5;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: none;
+}
+
+/* Nav */
+.nav {
+  background: var(--card-bg);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.nav-brand {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+.nav-links {
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav-links a {
+  color: var(--secondary);
+  font-weight: 500;
+}
+.nav-links a:hover {
+  color: var(--primary);
+}
+
+/* Container */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+/* Typography */
+h1 { font-size: 28px; margin: 0 0 1rem; color: var(--text); }
+h2 { font-size: 22px; margin: 0 0 0.75rem; color: var(--secondary); }
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 0.6rem 1.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.2s, color 0.2s;
+}
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+.btn-primary:hover {
+  background: var(--primary-dark);
+  color: white;
+  text-decoration: none;
+}
+.btn-secondary {
+  background: var(--secondary);
+  color: white;
+}
+.btn-secondary:hover {
+  background: #1f2937;
+  color: white;
+  text-decoration: none;
+}
+.btn-outline {
+  background: transparent;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+.btn-outline:hover {
+  background: var(--primary);
+  color: white;
+  text-decoration: none;
+}
+
+/* Cards */
+.card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Forms */
+.form-group {
+  margin-bottom: 1rem;
+}
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  color: var(--secondary);
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  font-size: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: inherit;
+}
+.form-group textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Messages */
+.messages {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+}
+.messages li {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+.messages .success { background: #D1FAE5; color: #065F46; }
+.messages .error { background: #FEE2E2; color: #991B1B; }
+.messages .warning { background: #FEF3C7; color: #92400E; }
+.messages .info { background: #DBEAFE; color: #1E40AF; }
+
+/* Footer */
+.footer,
+.footer-theme {
+  background: var(--secondary);
+  color: #E5E7EB;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+.footer a,
+.footer-theme a { color: #F9FAFB; }
+
+/* Hero */
+.hero {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+}
+.hero h1 { color: white; margin-bottom: 0.5rem; }
+.hero p { margin: 0; opacity: 0.95; font-size: 1.1rem; }
+
+/* Service card on home/list */
+.service-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+.service-card:hover {
+  box-shadow: 0 4px 12px rgba(233, 30, 99, 0.15);
+}
+.service-card .card-body { padding: 1.25rem; }
+.service-card h3 { margin: 0 0 0.5rem; font-size: 1.15rem; }
+.service-card .price { color: var(--primary); font-weight: 700; font-size: 1.1rem; }
+.service-card .btn { margin-top: 0.75rem; }
+
+/* Appointment list */
+.appointment-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.appointment-item:last-child { border-bottom: none; }
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.status-pending { background: #FEF3C7; color: #92400E; }
+.status-confirmed { background: #D1FAE5; color: #065F46; }
+.status-cancelled { background: #FEE2E2; color: #991B1B; }
+.status-completed { background: #E0E7FF; color: #3730A3; }
+
+/* Map container */
+#map {
+  height: 300px;
+  width: 100%;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+}
+
+/* Ecommerce-style service card hover */
+.service-card-hover {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.service-card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(233, 30, 99, 0.2) !important;
+}
+
+/* Bootstrap overrides for theme */
+.text-primary { color: var(--primary) !important; }
+.btn-primary { background-color: var(--primary) !important; border-color: var(--primary) !important; }
+.btn-primary:hover { background-color: var(--primary-dark) !important; border-color: var(--primary-dark) !important; }
+.navbar-brand.text-primary { color: var(--primary) !important; }
+.border-primary { border-color: var(--primary) !important; }
+.badge.bg-primary { background-color: var(--primary) !important; }
+.alert-info .alert-link { color: var(--primary); }
+
+/* ========== Dark mode ========== */
+/* Theme palette and body are in theme.css. Only extra component overrides here. */
+[data-theme="dark"] .theme-navbar {
+  background-color: var(--card-bg) !important;
+  border-bottom: 1px solid var(--border);
+}
+[data-theme="dark"] .theme-navbar .navbar-brand,
+[data-theme="dark"] .theme-navbar .nav-link {
+  color: var(--text) !important;
+}
+[data-theme="dark"] .footer-theme {
+  color: var(--text-soft);
+}
+[data-theme="dark"] .footer-theme a {
+  color: var(--text-soft) !important;
+}
+[data-theme="dark"] .border-bottom {
+  border-color: var(--border) !important;
+}
+[data-theme="dark"] .table-hover tbody tr:hover {
+  background-color: rgba(255,255,255,0.05);
+}
+[data-theme="dark"] .service-card-hover:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4) !important;
+}
+[data-theme="dark"] .btn-outline-secondary {
+  border-color: var(--border);
+  color: var(--text);
+}
+[data-theme="dark"] .btn-outline-secondary:hover {
+  background-color: var(--border);
+  color: var(--text);
+}

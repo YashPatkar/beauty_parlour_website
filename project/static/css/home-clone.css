@@ -1,0 +1,371 @@
+/*
+  Homepage UI clone - reference layout only.
+  Strict: spacing, typography scale, colors, card UI, section order.
+*/
+.page-home .home-container {
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* ----- 1. Hero: diagonal gradient Warm Cream → Blush Pink → White ----- */
+.page-home .home-hero {
+  padding: 4rem 0 4.5rem;
+  background: linear-gradient(135deg, #F6F2EF 0%, #F0E8E4 25%, #E9B8AE 50%, #E2A79C 70%, #EDE5E2 88%, #FFFFFF 100%);
+}
+.page-home .home-hero-text {
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 3rem;
+}
+.page-home .home-hero-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 4.5vw, 2.75rem);
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+.page-home .home-hero-lead {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  color: var(--text-soft);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+.page-home .btn-home-cta {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-weight: 500;
+  padding: 0.75rem 1.75rem;
+  border-radius: var(--radius-btn);
+  border: none;
+  background: var(--blush);
+  color: var(--text);
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+.page-home .btn-home-cta:hover {
+  background: var(--blush-light);
+  color: var(--text);
+  transform: translateY(-1px);
+}
+.page-home .btn-home-cta-dark {
+  background: var(--accent);
+  color: #fff;
+}
+.page-home .btn-home-cta-dark:hover {
+  background: var(--accent-soft);
+  color: #fff;
+}
+
+/* Content cards: rounded, shadow, image + tag, bottom text, hover scale */
+.page-home .home-content-card,
+.page-home .home-media-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  border: none;
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  height: 100%;
+  display: block;
+}
+.page-home .home-content-card:hover,
+.page-home .home-media-card:hover {
+  transform: scale(1.02);
+  box-shadow: var(--shadow-hover);
+}
+.page-home .home-card-img-wrap {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16/10;
+}
+.page-home .home-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.page-home .home-content-card:hover .home-card-img,
+.page-home .home-media-card:hover .home-card-img {
+  transform: scale(1.05);
+}
+.page-home .home-card-tag {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.9);
+  color: var(--text);
+}
+.page-home .home-card-body {
+  padding: 1.25rem 1.5rem;
+}
+.page-home .home-card-title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--text);
+  margin-bottom: 0.35rem;
+}
+.page-home .home-card-desc {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text-soft);
+  margin: 0;
+}
+
+/* ----- 2. Theme Category: muted blush bg, 4 white cards ----- */
+.page-home .home-section {
+  padding: 4rem 0;
+}
+.page-home .home-section-blush {
+  background: #E9B8AE;
+  background: rgba(233, 184, 174, 0.35);
+}
+.page-home .home-section-offwhite {
+  background: #F6F2EF;
+}
+.page-home .home-section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  margin-bottom: 2rem;
+}
+.page-home .home-underline {
+  text-decoration: underline;
+  text-decoration-style: wavy;
+  text-underline-offset: 4px;
+}
+.page-home .home-theme-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  border: none;
+  box-shadow: var(--shadow-soft);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+}
+.page-home .home-theme-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+}
+.page-home .home-theme-card-body {
+  padding: 2rem 1rem;
+}
+.page-home .home-theme-icon {
+  display: block;
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+}
+.page-home .home-theme-title {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--text);
+  margin-bottom: 0.35rem;
+}
+.page-home .home-theme-desc {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--text-soft);
+  margin: 0;
+}
+
+/* ----- 4. Events CTA: full-width overlay ----- */
+.page-home .home-events {
+  position: relative;
+  padding: 4.5rem 0;
+  background: linear-gradient(135deg, rgba(196, 164, 132, 0.4) 0%, rgba(226, 167, 156, 0.5) 100%);
+  background-image: url('https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1200&q=80');
+  background-size: cover;
+  background-position: center;
+}
+.page-home .home-events-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(246, 242, 239, 0.7);
+  pointer-events: none;
+}
+.page-home .home-events-inner {
+  position: relative;
+  z-index: 1;
+}
+.page-home .home-events-title {
+  color: var(--text);
+  margin-bottom: 0;
+}
+.page-home .btn-home-events {
+  font-family: var(--font-body);
+  font-weight: 500;
+  padding: 0.6rem 1.25rem;
+  border-radius: var(--radius-btn);
+  background: var(--card-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+.page-home .btn-home-events:hover {
+  background: var(--bg-warm);
+  color: var(--text);
+}
+
+/* ----- 5. Brands: white cards ----- */
+.page-home .home-brand-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-soft);
+  padding: 1.5rem 1rem;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-soft);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.page-home .home-brand-card:hover {
+  transform: scale(1.03);
+  box-shadow: var(--shadow-hover);
+}
+.page-home .home-section-desc {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text-soft);
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ----- 7. Newsletter: blush bg, white text ----- */
+.page-home .home-section-blush .home-section-title {
+  color: var(--text);
+}
+.page-home .home-newsletter-desc {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--text-soft);
+  margin-bottom: 1.5rem;
+}
+.page-home .home-newsletter-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  align-items: center;
+}
+.page-home .home-newsletter-input {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  padding: 0.65rem 1.25rem;
+  border-radius: var(--radius-btn);
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  min-width: 260px;
+}
+.page-home .home-newsletter-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+/* ----- Dark mode: homepage - warm deep reddish-brown (reference image) ----- */
+[data-theme="dark"] .page-home .home-hero {
+  background: linear-gradient(135deg, #2d1e1e 0%, #332121 30%, #3a2525 60%, #3d2828 100%);
+}
+[data-theme="dark"] .page-home .home-hero-title {
+  color: #e8dcc8 !important;
+}
+[data-theme="dark"] .page-home .home-hero-lead {
+  color: #d4c4b0 !important;
+}
+[data-theme="dark"] .page-home .btn-home-cta {
+  background: var(--accent);
+  color: #fff;
+}
+[data-theme="dark"] .page-home .btn-home-cta:hover {
+  background: var(--accent-soft);
+  color: #fff;
+}
+[data-theme="dark"] .page-home .home-content-card,
+[data-theme="dark"] .page-home .home-media-card {
+  background: #1f1f1f !important;
+  color: #f1f5f9 !important;
+}
+[data-theme="dark"] .page-home .home-card-tag {
+  background: rgba(31, 31, 31, 0.95);
+  color: #f1f5f9 !important;
+  border: 1px solid rgba(241, 245, 249, 0.2);
+}
+[data-theme="dark"] .page-home .home-card-title {
+  color: #f1f5f9 !important;
+}
+[data-theme="dark"] .page-home .home-card-desc {
+  color: #d4c4b0 !important;
+}
+[data-theme="dark"] .page-home .home-section-blush {
+  background: rgba(51, 33, 33, 0.9);
+}
+[data-theme="dark"] .page-home .home-section-offwhite {
+  background: var(--bg-cream);
+}
+[data-theme="dark"] .page-home .home-section-title {
+  color: #e8dcc8 !important;
+}
+[data-theme="dark"] .page-home .home-theme-card {
+  background: #1f1f1f !important;
+  color: #f1f5f9 !important;
+}
+[data-theme="dark"] .page-home .home-theme-title {
+  color: #f1f5f9 !important;
+}
+[data-theme="dark"] .page-home .home-theme-desc {
+  color: #d4c4b0 !important;
+}
+[data-theme="dark"] .page-home .home-events-overlay {
+  background: rgba(45, 30, 30, 0.88);
+}
+[data-theme="dark"] .page-home .home-events-title {
+  color: #e8dcc8 !important;
+}
+[data-theme="dark"] .page-home .btn-home-events {
+  background: #1f1f1f !important;
+  color: #f1f5f9 !important;
+  border-color: #4a3535;
+}
+[data-theme="dark"] .page-home .btn-home-events:hover {
+  background: var(--bg-warm) !important;
+  color: #f1f5f9 !important;
+}
+[data-theme="dark"] .page-home .home-brand-card {
+  background: #1f1f1f !important;
+  border-color: #4a3535;
+  color: #d4c4b0 !important;
+}
+[data-theme="dark"] .page-home .home-section-desc,
+[data-theme="dark"] .page-home .home-newsletter-desc {
+  color: #d4c4b0 !important;
+}
+[data-theme="dark"] .page-home .home-section-blush .home-section-title {
+  color: #e8dcc8 !important;
+}
+[data-theme="dark"] .page-home .home-newsletter-input {
+  background: #1f1f1f !important;
+  border-color: #4a3535;
+  color: #f1f5f9 !important;
+}
+[data-theme="dark"] .page-home .home-newsletter-input::placeholder {
+  color: #a89888;
+}

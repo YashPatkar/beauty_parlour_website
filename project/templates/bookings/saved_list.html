@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Saved services - Beauty Parlour{% endblock %}
+{% block content %}
+<section class="py-5">
+  <div class="container">
+    <h1 class="mb-2">Saved for later</h1>
+    <p class="text-muted mb-4">Quickly book again from your saved list.</p>
+    <div class="card border-0 shadow-sm">
+      <div class="card-body">
+        {% for fav in favourites %}
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 py-3 border-bottom">
+          <div>
+            <h5 class="mb-1">{{ fav.service.name }}</h5>
+            <p class="text-muted small mb-0">₹{{ fav.service.price }} · {{ fav.service.duration_minutes }} min</p>
+          </div>
+          <div class="d-flex gap-2">
+            <a href="{% url 'booking' fav.service_id %}" class="btn btn-premium-primary btn-sm">Book now</a>
+            <a href="{% url 'add_to_cart' fav.service_id %}?next=cart" class="btn btn-premium-outline btn-sm">Add to cart</a>
+            <a href="{% url 'remove_from_favourites' fav.service_id %}" class="btn btn-outline-danger btn-sm" onclick="return confirm('Remove from saved list?');">Remove</a>
+          </div>
+        </div>
+        {% empty %}
+        <p class="text-muted mb-0">No saved services. Save services from <a href="{% url 'services_list' %}">Services</a> to book again quickly.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

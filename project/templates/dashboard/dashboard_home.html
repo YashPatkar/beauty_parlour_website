@@ -1,0 +1,45 @@
+{% extends 'dashboard/base_dashboard.html' %}
+{% block title %}Dashboard - Admin Panel{% endblock %}
+{% block content %}
+<h1 class="mb-4">Dashboard</h1>
+<div class="row g-4">
+  <div class="col-md-6 col-lg-3">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body">
+        <h6 class="text-muted">Total Users</h6>
+        <h2 class="mb-0">{{ total_users }}</h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-lg-3">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body">
+        <h6 class="text-muted">Total Bookings</h6>
+        <h2 class="mb-0">{{ total_bookings }}</h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-lg-3">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body">
+        <h6 class="text-muted">Total Services</h6>
+        <h2 class="mb-0">{{ total_services }}</h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-lg-3">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body">
+        <h6 class="text-muted">Paid Payments</h6>
+        <h2 class="mb-0">{{ total_payments }}</h2>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="mt-4">
+  <a href="{% url 'manage_services' %}" class="btn btn-primary me-2">Manage Services</a>
+  <a href="{% url 'manage_staff' %}" class="btn btn-outline-primary me-2">Manage Staff</a>
+  <a href="{% url 'manage_appointments' %}" class="btn btn-outline-primary me-2">Manage Appointments</a>
+  <a href="{% url 'manage_payments' %}" class="btn btn-outline-primary">Manage Payments</a>
+</div>
+{% endblock %}

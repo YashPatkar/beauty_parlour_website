@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <circle cx="100" cy="100" r="95" fill="#F3E5F5"/>
+  <rect x="60" y="50" width="80" height="60" rx="4" fill="#E91E63" opacity="0.7"/>
+  <rect x="60" y="115" width="35" height="8" rx="2" fill="#AD1457"/>
+  <rect x="105" y="115" width="35" height="8" rx="2" fill="#AD1457"/>
+  <text x="100" y="165" font-family="Arial" font-size="14" fill="#6A1B9A" text-anchor="middle" font-weight="bold">Booking</text>
+</svg>

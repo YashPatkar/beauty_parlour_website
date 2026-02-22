@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}FAQ - Beauty Parlour{% endblock %}
+{% block content %}
+<section class="py-5">
+  <div class="container">
+    <h1 class="text-center mb-5">Frequently Asked Questions</h1>
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="accordion" id="faqAccordion">
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#q1">How do I book an appointment?</button>
+            </h2>
+            <div id="q1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">Register or log in, go to Services, choose a service and click Book. Select date, time, and proceed to payment.</div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q2">Is payment required in advance?</button>
+            </h2>
+            <div id="q2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">Payment is simulated only. You can choose Cash, Card, or Online (simulated) when booking.</div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q3">Can I cancel my appointment?</button>
+            </h2>
+            <div id="q3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">Yes. Go to My Appointments and click Cancel next to your booking. You can cancel only pending or confirmed appointments.</div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q4">Where is the parlour located?</button>
+            </h2>
+            <div id="q4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">For this academic project, the sample location is Chembur, Mumbai. The map on each service detail page shows the location.</div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q5">Do I need to create an account to view services?</button>
+            </h2>
+            <div id="q5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+              <div class="accordion-body">No. You can browse services, view prices, and see the map without logging in. Login is required only for booking, payment, and feedback.</div>
+            </div>
+          </div>
+        </div>
+        <div class="text-center mt-4">
+          <a href="{% url 'contact' %}" class="btn btn-primary">Still have questions? Contact Us</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

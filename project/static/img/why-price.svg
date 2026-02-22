@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <circle cx="100" cy="100" r="95" fill="#E8F5E9"/>
+  <text x="100" y="115" font-family="Arial" font-size="48" fill="#2E7D32" text-anchor="middle" font-weight="bold">Rs</text>
+  <text x="100" y="165" font-family="Arial" font-size="14" fill="#388E3C" text-anchor="middle" font-weight="bold">Best Price</text>
+</svg>

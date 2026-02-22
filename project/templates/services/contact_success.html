@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Message Sent - Beauty Parlour{% endblock %}
+{% block content %}
+<section class="py-5">
+  <div class="container text-center">
+    <div class="card border-0 shadow-sm d-inline-block p-5">
+      <img src="https://via.placeholder.com/80/22c55e/ffffff?text=%E2%9C%93" alt="Success" class="mb-3 rounded-circle" style="width: 80px; height: 80px; object-fit: contain;">
+      <h1 class="mt-2">Thank You</h1>
+      <p class="lead">Your message has been sent. We will get back to you soon.</p>
+      <a href="{% url 'home' %}" class="btn btn-primary">Back to Home</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

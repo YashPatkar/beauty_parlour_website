@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ service.name }} - Beauty Parlour{% endblock %}
+{% block content %}
+<section class="section-offwhite py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 mb-4 mb-lg-0">
+        <div class="card-premium overflow-hidden rounded">
+          <img src="{% firstof service.display_image_url service.image_url default_images.service_placeholder %}" class="img-fluid w-100" alt="{{ service.name }}" style="max-height: 420px; object-fit: cover;">
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <h1 class="section-title mb-3">{{ service.name }}</h1>
+        {% if service.location %}<p class="mb-2"><span class="badge bg-secondary bg-opacity-25 text-dark">{{ service.location }}</span></p>{% endif %}
+        <p class="price fs-3 mb-2">₹{{ service.price }}</p>
+        <p class="text-muted mb-4">{{ service.duration_minutes }} minutes</p>
+        <p class="mb-4">{{ service.description }}</p>
+        <div class="d-flex flex-wrap gap-2 mb-4">
+          {% if user.is_authenticated %}
+          <a href="{% url 'booking' service.pk %}" class="btn btn-premium-primary btn-lg">Book Now</a>
+          {% if service.pk in user_cart_service_ids %}
+          <a href="{% url 'cart' %}" class="btn btn-outline-secondary btn-lg">In cart</a>
+          {% else %}
+          <a href="{% url 'add_to_cart' service.pk %}" class="btn btn-outline-primary btn-lg">Add to cart</a>
+          {% endif %}
+          {% if service.pk in user_favourite_service_ids %}
+          <span class="btn btn-outline-secondary btn-lg">Saved</span>
+          {% else %}
+          <a href="{% url 'add_to_favourites' service.pk %}" class="btn btn-outline-secondary btn-lg">Save for later</a>
+          {% endif %}
+          {% else %}
+          <a href="{% url 'login' %}?next={% url 'booking' service.pk %}" class="btn btn-premium-primary btn-lg">Login to Book</a>
+          {% endif %}
+          <a href="{% url 'services_list' %}" class="btn btn-premium-outline btn-lg">Back to Services</a>
+        </div>
+        {% if staff_list %}
+        <h2 class="h5 font-heading mb-3">Our staff</h2>
+        <div class="d-flex flex-wrap gap-2">
+          {% for s in staff_list %}
+          <div class="d-flex align-items-center gap-2 rounded border p-2" style="background: var(--bg-cream);">
+            {% if s.image_url %}
+            <img src="{{ s.image_url }}" alt="{{ s.name }}" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+            {% else %}
+            <div class="rounded-circle bg-secondary bg-opacity-25 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;"><span class="small text-muted">{{ s.name|slice:":1" }}</span></div>
+            {% endif %}
+            <div>
+              <span class="fw-semibold small">{{ s.name }}</span>
+              <span class="d-block small text-muted">{{ s.specialization|default:"Beauty & Grooming" }}</span>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    <hr class="my-5">
+    <h2 class="section-title mb-3">Find us</h2>
+    <p class="text-muted mb-3">Chembur, Mumbai – sample location.</p>
+    <div id="map" class="rounded" style="height: 280px; background: var(--bg-warm);"></div>
+  </div>
+</section>
+{% endblock %}
+{% block extra_js %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var map = L.map('map').setView([19.0596, 72.8985], 15);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap' }).addTo(map);
+    L.marker([19.0596, 72.8985]).addTo(map).bindPopup('Beauty Parlour - Chembur, Mumbai');
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Offers - Beauty Parlour{% endblock %}
+{% block content %}
+<section class="section-cream py-5">
+  <div class="container">
+    <h1 class="section-title text-center mb-2">Offers & promotions</h1>
+    <p class="text-center text-muted mb-5">Special prices on our popular services. Book now and save.</p>
+    <div class="row g-4 mb-5">
+      <div class="col-md-6 col-lg-4">
+        <div class="offer-card reveal-card">
+          <span class="offer-badge d-block mb-2">First visit</span>
+          <p class="small mb-3">10% off on your first booking. Register and book to avail.</p>
+          <a href="{% url 'register' %}" class="btn btn-premium-dark btn-sm">Get offer</a>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="offer-card reveal-card">
+          <span class="offer-badge d-block mb-2">Combo pack</span>
+          <p class="small mb-3">Hair + facial combo at a special price. Limited period.</p>
+          <a href="{% url 'services_list' %}" class="btn btn-premium-dark btn-sm">View services</a>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="offer-card reveal-card">
+          <span class="offer-badge d-block mb-2">Seasonal</span>
+          <p class="small mb-3">Seasonal deals on bridal and party packages.</p>
+          <a href="{% url 'contact' %}" class="btn btn-premium-dark btn-sm">Enquire</a>
+        </div>
+      </div>
+    </div>
+    <h2 class="section-title text-center mb-4">Featured services</h2>
+    <div class="row g-4">
+      {% for service in services %}
+      <div class="col-md-6 col-lg-4">
+        <div class="card card-premium h-100 reveal-card">
+          <div class="card-img-wrap">
+            <img src="{% firstof service.display_image_url service.image_url default_images.service_placeholder %}" class="card-img-top" alt="{{ service.name }}">
+          </div>
+          <div class="card-body d-flex flex-column">
+            <span class="badge rounded-pill mb-2" style="background: var(--accent); color: #fff;">Featured</span>
+            <h5 class="card-title">{{ service.name }}</h5>
+            <p class="price mb-1">₹{{ service.price }}</p>
+            <p class="small text-muted mb-3">{{ service.duration_minutes }} min</p>
+            <a href="{% url 'service_detail' service.pk %}" class="btn btn-premium-primary mt-auto">View & Book</a>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div class="col-12 text-center text-muted py-4">No featured services at the moment. Check back soon!</div>
+      {% endfor %}
+    </div>
+    <div class="alert mt-5 rounded border-0 text-center" style="background: rgba(196, 164, 132, 0.15); color: var(--text);">
+      <strong>New customer?</strong> Register and book your first appointment to enjoy a smooth experience.
+      <a href="{% url 'register' %}" class="text-decoration-none fw-semibold" style="color: var(--accent);"> Register here</a>.
+    </div>
+  </div>
+</section>
+{% endblock %}

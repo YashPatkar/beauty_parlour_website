@@ -1,0 +1,128 @@
+/* Razorpay-style payment page (demo only - not real Razorpay) */
+.rzp-theme {
+  --rzp-blue: #0C2451;
+  --rzp-blue-light: #3395FF;
+  --rzp-border: #E0E6ED;
+  --rzp-bg: #F7F8FA;
+}
+
+.rzp-container {
+  max-width: 440px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+
+.rzp-header {
+  background: var(--rzp-blue);
+  color: #fff;
+  padding: 1.25rem 1.5rem;
+  text-align: center;
+}
+
+.rzp-header img {
+  filter: brightness(0) invert(1);
+  height: 28px;
+}
+
+.rzp-amount {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0.5rem 0 0;
+}
+
+.rzp-body {
+  padding: 1.5rem;
+}
+
+.rzp-tabs {
+  display: flex;
+  border-bottom: 2px solid var(--rzp-border);
+  margin-bottom: 1.25rem;
+  gap: 0;
+}
+
+.rzp-tab {
+  padding: 0.6rem 1rem;
+  border: none;
+  background: none;
+  font-weight: 600;
+  color: #6B7280;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+}
+
+.rzp-tab:hover { color: var(--rzp-blue); }
+.rzp-tab.active { color: var(--rzp-blue); border-bottom-color: var(--rzp-blue); }
+
+.rzp-panel { display: none; }
+.rzp-panel.active { display: block; }
+
+.rzp-form .form-label { font-weight: 600; color: #374151; font-size: 0.9rem; }
+.rzp-form .form-control {
+  border: 1px solid var(--rzp-border);
+  border-radius: 8px;
+  padding: 0.65rem 0.75rem;
+}
+.rzp-form .form-control:focus {
+  border-color: var(--rzp-blue-light);
+  box-shadow: 0 0 0 3px rgba(51, 149, 255, 0.2);
+}
+
+.rzp-btn-pay {
+  background: var(--rzp-blue) !important;
+  border: none !important;
+  color: #fff !important;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+.rzp-btn-pay:hover { background: #0a1d3d !important; color: #fff !important; }
+
+.rzp-saved-card {
+  border: 1px solid var(--rzp-border);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.rzp-saved-card:hover { border-color: var(--rzp-blue-light); }
+.rzp-saved-card.selected { border-color: var(--rzp-blue); background: #F0F7FF; }
+
+.rzp-new-card-link {
+  color: var(--rzp-blue-light);
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.rzp-footer-note {
+  font-size: 0.75rem;
+  color: #9CA3AF;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.rzp-pay-at-salon {
+  text-align: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rzp-border);
+}
+.rzp-pay-at-salon button {
+  background: transparent;
+  border: none;
+  color: #6B7280;
+  font-size: 0.9rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.rzp-pay-at-salon button:hover { color: var(--rzp-blue); }

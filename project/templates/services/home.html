@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home - Beauty Parlour{% endblock %}
+{% block main_class %}page-home{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home-clone.css' %}">
+{% endblock %}
+{% block content %}
+
+<!-- 1. Hero Section: centered H1, paragraph, CTA, then two content cards -->
+<section class="home-hero reveal-section">
+  <div class="container home-container">
+    <div class="home-hero-text text-center">
+      <h1 class="home-hero-title">Beauty, Care &amp; Inspiration</h1>
+      <p class="home-hero-lead">Discover our range of hair, skin, and makeup services. Book online and enjoy a relaxing experience with trained professionals: simple, quick, and designed around you.</p>
+      <a href="{% url 'services_list' %}" class="btn btn-home-cta">Discover More</a>
+    </div>
+    <div class="row g-4 home-hero-cards justify-content-center">
+      <div class="col-md-6 col-lg-5">
+        <a href="{% url 'services_list' %}" class="home-content-card card reveal-card">
+          <div class="home-card-img-wrap">
+            <img src="{% if services %}{% firstof services.0.display_image_url services.0.image_url default_images.hero %}{% else %}{{ default_images.hero }}{% endif %}" class="home-card-img" alt="{% if services %}{{ services.0.name }}{% else %}Services{% endif %}">
+            <span class="home-card-tag">Services</span>
+          </div>
+          <div class="home-card-body">
+            <h3 class="home-card-title">Our Services</h3>
+            <p class="home-card-desc">Explore and book hair, skin &amp; makeup services.</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-6 col-lg-5">
+        <a href="{% url 'gallery' %}" class="home-content-card card reveal-card">
+          <div class="home-card-img-wrap">
+            <img src="{{ default_images.gallery_salon }}" class="home-card-img" alt="Gallery">
+            <span class="home-card-tag">Gallery</span>
+          </div>
+          <div class="home-card-body">
+            <h3 class="home-card-title">See Our Space</h3>
+            <p class="home-card-desc">A glimpse of our salon and treatments.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. Theme Category Section: Content categorized by theme -->
+<section class="home-section home-section-blush reveal-section">
+  <div class="container home-container">
+    <h2 class="home-section-title text-center">Content categorized by theme</h2>
+    <div class="row g-4">
+      <div class="col-6 col-md-3">
+        <a href="{% url 'services_list' %}" class="home-theme-card card reveal-card">
+          <div class="home-theme-card-body text-center">
+            <span class="home-theme-icon">💇</span>
+            <h3 class="home-theme-title">Hair</h3>
+            <p class="home-theme-desc">Styling, cuts &amp; colour</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-md-3">
+        <a href="{% url 'services_list' %}" class="home-theme-card card reveal-card">
+          <div class="home-theme-card-body text-center">
+            <span class="home-theme-icon">✨</span>
+            <h3 class="home-theme-title">Skin &amp; Face</h3>
+            <p class="home-theme-desc">Facials &amp; skincare</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-md-3">
+        <a href="{% url 'services_list' %}" class="home-theme-card card reveal-card">
+          <div class="home-theme-card-body text-center">
+            <span class="home-theme-icon">💄</span>
+            <h3 class="home-theme-title">Makeup</h3>
+            <p class="home-theme-desc">Bridal &amp; party looks</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-md-3">
+        <a href="{% url 'offers' %}" class="home-theme-card card reveal-card">
+          <div class="home-theme-card-body text-center">
+            <span class="home-theme-icon">🎁</span>
+            <h3 class="home-theme-title">Offers</h3>
+            <p class="home-theme-desc">Deals &amp; promotions</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. Podcast / Video Cards → Discover our latest (Services) -->
+<section class="home-section home-section-offwhite reveal-section">
+  <div class="container home-container">
+    <h2 class="home-section-title text-center">Discover our latest services</h2>
+    <div class="row g-4">
+      {% for service in services_latest %}
+      <div class="col-md-6 col-lg-4">
+        <a href="{% url 'service_detail' service.pk %}" class="home-media-card card reveal-card">
+          <div class="home-card-img-wrap">
+            <img src="{% firstof service.display_image_url service.image_url default_images.service_placeholder %}" class="home-card-img" alt="{{ service.name }}">
+            <span class="home-card-tag">Service</span>
+          </div>
+          <div class="home-card-body">
+            <h3 class="home-card-title">{{ service.name }}</h3>
+            <p class="home-card-desc">₹{{ service.price }} · {{ service.duration_minutes }} min</p>
+          </div>
+        </a>
+      </div>
+      {% empty %}
+      <div class="col-12 text-center text-muted py-4">No services yet. Check back soon.</div>
+      {% endfor %}
+    </div>
+    <div class="text-center mt-4">
+      <a href="{% url 'services_list' %}" class="btn btn-home-cta">View all services</a>
+    </div>
+  </div>
+</section>
+
+<!-- 4. Events CTA Section -->
+<section class="home-events reveal-section">
+  <div class="home-events-overlay"></div>
+  <div class="container home-container position-relative">
+    <div class="home-events-inner text-center">
+      <h2 class="home-section-title home-events-title">Are you familiar with our events?</h2>
+      <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
+        <a href="{% url 'contact' %}" class="btn btn-home-events">Bridal Workshop</a>
+        <a href="{% url 'contact' %}" class="btn btn-home-events">Hair Care Day</a>
+        <a href="{% url 'contact' %}" class="btn btn-home-events">Open House</a>
+        <a href="{% url 'contact' %}" class="btn btn-home-events">Enquire</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. Brands Section -->
+<section class="home-section home-section-offwhite reveal-section">
+  <div class="container home-container">
+    <h2 class="home-section-title text-center">Beauty Parlour also includes beautiful <span class="home-underline">brands</span></h2>
+    <div class="row g-4 justify-content-center home-brands-row">
+      <div class="col-6 col-md-4 col-lg-2">
+        <div class="home-brand-card card reveal-card"><span>Premium Hair</span></div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-2">
+        <div class="home-brand-card card reveal-card"><span>Skincare</span></div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-2">
+        <div class="home-brand-card card reveal-card"><span>Makeup</span></div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-2">
+        <div class="home-brand-card card reveal-card"><span>Nail Care</span></div>
+      </div>
+      <div class="col-6 col-md-4 col-lg-2">
+        <div class="home-brand-card card reveal-card"><span>Beauty</span></div>
+      </div>
+    </div>
+    <p class="home-section-desc text-center mt-3">We work with trusted brands for hair, skin, and makeup.</p>
+    <div class="text-center mt-3">
+      <a href="{% url 'services_list' %}" class="btn btn-home-cta">Discover more</a>
+    </div>
+  </div>
+</section>
+
+<!-- 6. Media Grid Section (Videos / Gallery) -->
+<section class="home-section home-section-offwhite reveal-section">
+  <div class="container home-container">
+    <h2 class="home-section-title text-center">Check out our latest <span class="home-underline">videos</span></h2>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4">
+        <a href="{% url 'gallery' %}" class="home-media-card card reveal-card">
+          <div class="home-card-img-wrap">
+            <img src="{{ default_images.gallery_hair }}" class="home-card-img" alt="Hair">
+            <span class="home-card-tag">Video</span>
+          </div>
+          <div class="home-card-body">
+            <h3 class="home-card-title">Hair Styling</h3>
+            <p class="home-card-desc">See our hair treatments and styles.</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <a href="{% url 'gallery' %}" class="home-media-card card reveal-card">
+          <div class="home-card-img-wrap">
+            <img src="{{ default_images.gallery_makeup }}" class="home-card-img" alt="Makeup">
+            <span class="home-card-tag">Video</span>
+          </div>
+          <div class="home-card-body">
+            <h3 class="home-card-title">Makeup</h3>
+            <p class="home-card-desc">Bridal and party makeup looks.</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <a href="{% url 'gallery' %}" class="home-media-card card reveal-card">
+          <div class="home-card-img-wrap">
+            <img src="{{ default_images.gallery_facial }}" class="home-card-img" alt="Facials">
+            <span class="home-card-tag">Video</span>
+          </div>
+          <div class="home-card-body">
+            <h3 class="home-card-title">Facials</h3>
+            <p class="home-card-desc">Skincare and facial treatments.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="text-center mt-4">
+      <a href="{% url 'gallery' %}" class="btn btn-home-cta">View all videos</a>
+    </div>
+  </div>
+</section>
+
+<!-- 7. Newsletter Section -->
+<section class="home-section home-section-blush reveal-section">
+  <div class="container home-container">
+    <div class="home-newsletter text-center">
+      <h2 class="home-section-title home-newsletter-title">Don't forget to subscribe to our <span class="home-underline">newsletter</span></h2>
+      <p class="home-newsletter-desc">Get updates on offers, new services, and beauty tips.</p>
+      <form action="{% url 'contact' %}" method="get" class="home-newsletter-form">
+        <input type="email" name="email" placeholder="Your email" class="home-newsletter-input" required>
+        <button type="submit" class="btn btn-home-cta btn-home-cta-dark">Subscribe</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Gallery - Beauty Parlour{% endblock %}
+{% block content %}
+<section class="section-cream py-5">
+  <div class="container">
+    <h1 class="section-title text-center mb-2">Gallery</h1>
+    <p class="text-center text-muted mb-5">A glimpse of our work and salon environment.</p>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4">
+        <div class="gallery-card reveal-card" data-bs-toggle="modal" data-bs-target="#lightboxModal" data-img="{{ default_images.gallery_hair }}" data-caption="Hair Styling">
+          <img src="{{ default_images.gallery_hair }}" alt="Hair Styling">
+          <div class="gallery-overlay"><span>Hair Styling</span></div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="gallery-card reveal-card" data-bs-toggle="modal" data-bs-target="#lightboxModal" data-img="{{ default_images.gallery_makeup }}" data-caption="Makeup">
+          <img src="{{ default_images.gallery_makeup }}" alt="Makeup">
+          <div class="gallery-overlay"><span>Makeup</span></div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="gallery-card reveal-card" data-bs-toggle="modal" data-bs-target="#lightboxModal" data-img="{{ default_images.gallery_facial }}" data-caption="Facials">
+          <img src="{{ default_images.gallery_facial }}" alt="Facials">
+          <div class="gallery-overlay"><span>Facials</span></div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="gallery-card reveal-card" data-bs-toggle="modal" data-bs-target="#lightboxModal" data-img="{{ default_images.gallery_nail }}" data-caption="Nail Art">
+          <img src="{{ default_images.gallery_nail }}" alt="Nail Art">
+          <div class="gallery-overlay"><span>Nail Art</span></div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="gallery-card reveal-card" data-bs-toggle="modal" data-bs-target="#lightboxModal" data-img="{{ default_images.gallery_bridal }}" data-caption="Bridal">
+          <img src="{{ default_images.gallery_bridal }}" alt="Bridal">
+          <div class="gallery-overlay"><span>Bridal</span></div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="gallery-card reveal-card" data-bs-toggle="modal" data-bs-target="#lightboxModal" data-img="{{ default_images.gallery_salon }}" data-caption="Salon">
+          <img src="{{ default_images.gallery_salon }}" alt="Salon">
+          <div class="gallery-overlay"><span>Salon</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="text-center mt-4">
+      <a href="{% url 'contact' %}" class="btn btn-premium-primary">Book Your Visit</a>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox modal -->
+<div class="modal fade" id="lightboxModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content border-0 bg-transparent">
+      <div class="modal-header border-0 pb-0">
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center p-0">
+        <img id="lightboxImg" src="" alt="" class="img-fluid rounded">
+        <p id="lightboxCaption" class="text-white mt-2 mb-0 small"></p>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  document.getElementById('lightboxModal').addEventListener('show.bs.modal', function(e) {
+    var el = e.relatedTarget;
+    if (el && el.dataset.img) {
+      document.getElementById('lightboxImg').src = el.dataset.img;
+      document.getElementById('lightboxCaption').textContent = el.dataset.caption || '';
+    }
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Terms & Conditions - Beauty Parlour{% endblock %}
+{% block content %}
+<section class="py-5">
+  <div class="container">
+    <h1 class="text-center mb-5">Terms & Conditions</h1>
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card border-0 shadow-sm p-4 p-md-5">
+          <p class="text-muted small">Last updated: {% now "F Y" %}</p>
+          <h4>1. Acceptance</h4>
+          <p>By using the Beauty Parlour website, you agree to these terms. This is an academic project.</p>
+          <h4>2. Use of Service</h4>
+          <p>You may browse services, register, book appointments, and use the contact form. You must provide accurate information. Booking is subject to availability.</p>
+          <h4>3. Payments</h4>
+          <p>All payments on this site are simulated. No real payment gateway is integrated. No actual charges are made.</p>
+          <h4>4. Cancellation</h4>
+          <p>You may cancel appointments from the My Appointments page. Cancellation policy is at the discretion of the parlour for a real-world scenario.</p>
+          <h4>5. Limitation</h4>
+          <p>This website is not liable for any loss arising from use of this system. It is intended for educational and evaluation purposes only.</p>
+          <p class="mb-0"><a href="{% url 'contact' %}" class="btn btn-outline-primary mt-2">Contact Us</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
